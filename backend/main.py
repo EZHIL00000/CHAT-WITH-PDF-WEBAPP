@@ -24,11 +24,11 @@ model = genai.GenerativeModel('gemini-1.5-pro-latest')
 # Configure ChromaDB client (using local setup)
 chroma_client = chromadb.Client()
 
-# ✅ Force delete existing collection to avoid dimension mismatch
+#  Force delete existing collection to avoid dimension mismatch
 if "documents" in [col.name for col in chroma_client.list_collections()]:
     chroma_client.delete_collection("documents")
 
-# ✅ Explicitly disable ChromaDB’s default 384-dim embedding function
+#  Explicitly disable ChromaDB’s default 384-dim embedding function
 collection = chroma_client.create_collection(
     name="documents",
     embedding_function=None
@@ -124,7 +124,7 @@ async def chat(session_id: str = Form(...), question: str = Form(...)):
         query_embedding = generate_embedding([question])[0]
 
         response = collection.query(
-            query_embeddings=[query_embedding],  # ✅ embed manually
+            query_embeddings=[query_embedding],  
             n_results=5,
             where={"session_id": session_id},
         )
